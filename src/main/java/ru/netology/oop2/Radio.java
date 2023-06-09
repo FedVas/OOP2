@@ -1,8 +1,16 @@
 package ru.netology.oop2;
 
 public class Radio {
-    public int currentRadioStationNum;
-    public int currentVolLevel;
+    private int currentRadioStationNum;
+    private int currentVolLevel;
+
+    public int getCurrentRadioStationNum() {
+        return currentRadioStationNum;
+    }
+
+    public int getCurrentVolLevel() {
+        return currentVolLevel;
+    }
 
     public void setCurrentRadioStationNum(int newCurrentStationNum) {  //смена радиостанции вводом номера станции
         if (newCurrentStationNum < 0) {
