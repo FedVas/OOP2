@@ -6,8 +6,24 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
 public class RadioTest {
+    @Test
+    public void inputSize() {                                                 // ввод к-ва радиостаннций
+        Radio radio = new Radio(20);
+        Assertions.assertEquals(19, radio.getMaxStationNum());
+        Assertions.assertEquals(0, radio.getMinStationNum());
+        Assertions.assertEquals(0, radio.getCurrentRadioStationNum());
+    }
 
-    @ParameterizedTest  //граничные значения и позитивное значение; 5 тестов
+    @Test
+    public void inputNegativeSize() {                                           //отрицательное к-во радиостанций
+        Radio radio = new Radio(-20);
+        Assertions.assertEquals(0, radio.getMaxStationNum());
+        Assertions.assertEquals(0, radio.getMinStationNum());
+        Assertions.assertEquals(0, radio.getCurrentRadioStationNum());
+    }
+
+
+    @ParameterizedTest                                  //граничные значения и позитивное значение; 5 тестов
     @CsvFileSource(files = "src/test/resources/RadioTestCase")
     public void limitValuesRadio(int input, int expected) {
         Radio radio = new Radio();
@@ -30,9 +46,9 @@ public class RadioTest {
     }
 
     @Test
-    public void nextStationIf9() {
-        Radio radio = new Radio();
-        radio.setCurrentRadioStationNum(9);
+    public void nextStationIfMax() {
+        Radio radio = new Radio(11);
+        radio.setCurrentRadioStationNum(10);
 
         radio.setNextStation();
 
@@ -43,8 +59,8 @@ public class RadioTest {
     }
 
     @Test
-    public void nextStationIf0() {
-        Radio radio = new Radio();
+    public void nextStationIfMin() {
+        Radio radio = new Radio(44);
         radio.setCurrentRadioStationNum(0);
 
         radio.setNextStation();
@@ -56,33 +72,33 @@ public class RadioTest {
     }
 
     @Test
-    public void prevStationIf0() {
-        Radio radio = new Radio();
+    public void prevStationIfMin() {
+        Radio radio = new Radio(51);
         radio.setCurrentRadioStationNum(0);
 
         radio.setPrevStation();
 
-        int expected = 9;
+        int expected = 50;
         int actual = radio.getCurrentRadioStationNum();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void prevStationIf9() {
-        Radio radio = new Radio();
-        radio.setCurrentRadioStationNum(9);
+    public void prevStationIfMax() {
+        Radio radio = new Radio(40);
+        radio.setCurrentRadioStationNum(39);
 
         radio.setPrevStation();
 
-        int expected = 8;
+        int expected = 38;
         int actual = radio.getCurrentRadioStationNum();
 
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void increaseVolumeIf100() {
+    public void increaseVolumeIfMax() {
         Radio radio = new Radio();
         radio.setCurrentRadioVol(100);
 
@@ -95,7 +111,7 @@ public class RadioTest {
     }
 
     @Test
-    public void increaseVolumeIf0() {
+    public void increaseVolumeIfMin() {
         Radio radio = new Radio();
         radio.setCurrentRadioVol(0);
 
@@ -108,7 +124,7 @@ public class RadioTest {
     }
 
     @Test
-    public void lowerVolumeIf0() {
+    public void lowerVolumeIfMin() {
         Radio radio = new Radio();
         radio.setCurrentRadioVol(0);
 
@@ -121,7 +137,7 @@ public class RadioTest {
     }
 
     @Test
-    public void lowerVolumeIf100() {
+    public void lowerVolumeIfMax() {
         Radio radio = new Radio();
         radio.setCurrentRadioVol(100);
 
