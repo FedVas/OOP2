@@ -1,8 +1,40 @@
 package ru.netology.oop2;
 
 public class Radio {
-    private int currentRadioStationNum;
-    private int currentVolLevel;
+
+    private int maxStationNum;
+    private int minStationNum;
+    private int currentRadioStationNum = minStationNum;
+
+    private int maxVolLevel = 100;
+    private int minVolLevel = 0;
+    private int currentVolLevel = minVolLevel;
+
+//    public Radio(int minStationNum, int maxStationNum) {  //конструктор с двумя переменными
+//        this.minStationNum = minStationNum;
+//        this.maxStationNum = maxStationNum;
+//        this.currentRadioStationNum = minStationNum;
+//    }
+
+    public Radio(int size) {
+        maxStationNum = minStationNum + size - 1;
+        if (size < 0) {
+            maxStationNum = currentRadioStationNum;
+        }
+    }
+
+    public Radio() {
+        maxStationNum = 9;
+        minStationNum = 0;
+    }
+
+    public int getMaxStationNum() {
+        return maxStationNum;
+    }
+
+    public int getMinStationNum() {
+        return minStationNum;
+    }
 
     public int getCurrentRadioStationNum() {
         return currentRadioStationNum;
@@ -12,27 +44,29 @@ public class Radio {
         return currentVolLevel;
     }
 
-    public void setCurrentRadioStationNum(int newCurrentStationNum) {  //смена радиостанции вводом номера станции
-        if (newCurrentStationNum < 0) {
+    public void setCurrentRadioStationNum(int newCurrentStationNum) {  //смена радиостанции вводом номера станции !!!!!!!!
+        if (newCurrentStationNum < minStationNum) {
+            currentRadioStationNum = minStationNum;
             return;
         }
-        if (newCurrentStationNum > 9) {
+        if (newCurrentStationNum > maxStationNum) {
+            currentRadioStationNum = maxStationNum;
             return;
         }
         currentRadioStationNum = newCurrentStationNum;
     }
 
     public void setNextStation() {  //кнопка Next
-        if (currentRadioStationNum == 9) {
-            currentRadioStationNum = 0;
+        if (currentRadioStationNum == maxStationNum) {
+            currentRadioStationNum = minStationNum;
         } else {
             currentRadioStationNum++;
         }
     }
 
     public void setPrevStation() {                    //кнопка prev
-        if (currentRadioStationNum == 0) {
-            currentRadioStationNum = 9;
+        if (currentRadioStationNum == minStationNum) {
+            currentRadioStationNum = maxStationNum;
         } else {
             currentRadioStationNum--;
         }
@@ -40,23 +74,23 @@ public class Radio {
 
     //звук
     public void increaseVolume() {                  // прибавить громкости
-        if (currentVolLevel < 100) {
+        if (currentVolLevel < maxVolLevel) {
             currentVolLevel = currentVolLevel + 1;
         }
 
     }
 
     public void lowerVolume() {                   //убавить громкость
-        if (currentVolLevel > 0) {
+        if (currentVolLevel > minVolLevel) {
             currentVolLevel = currentVolLevel - 1;
         }
     }
 
     public void setCurrentRadioVol(int newCurrentRadioVol) {   //смена громкости вводом значения громкости
-        if (newCurrentRadioVol > 100) {
+        if (newCurrentRadioVol > maxVolLevel) {
             return;
         }
-        if (newCurrentRadioVol < 0) {
+        if (newCurrentRadioVol < minVolLevel) {
             return;
         }
         currentVolLevel = newCurrentRadioVol;
